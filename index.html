@@ -5,125 +5,84 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ANKOGNiTO</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
-
 <style>
-body {
-  margin: 0;
-  font-family: "Inter", system-ui, Arial, sans-serif;
-  background: #050505;
-  color: #eaeaea;
-  overflow-x: hidden;
+body{
+  margin:0;
+  font-family: Arial, sans-serif;
+  background:#050505;
+  color:#eaeaea;
 }
 
-#particles {
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  z-index: 0;
+header{
+  text-align:center;
+  padding:40px;
+  border-bottom:2px solid #b300ff;
 }
 
-.smoke {
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  background: radial-gradient(circle at center, rgba(179,0,255,0.15), transparent 60%);
-  filter: blur(90px);
-  z-index: 1;
+h1{
+  color:#b300ff;
+  letter-spacing:0.3em;
 }
 
-header {
-  text-align: center;
-  padding: 60px 20px;
-  background: radial-gradient(circle, #1a1a1a, #000);
-  border-bottom: 2px solid #b300ff;
-  position: relative;
-  z-index: 2;
+section{
+  max-width:900px;
+  margin:auto;
+  padding:20px;
 }
 
-.glitch {
-  font-size: clamp(40px, 6vw, 80px);
-  letter-spacing: 0.35em;
-  font-weight: 600;
-  color: #b300ff;
-  text-shadow: 0 0 30px #b300ff;
+.track{
+  background:#111;
+  padding:15px;
+  margin:10px 0;
+  border-left:3px solid #b300ff;
 }
 
-section {
-  max-width: 900px;
-  margin: auto;
-  padding: 40px 20px;
-  position: relative;
-  z-index: 2;
+.artist{
+  color:#b300ff;
+  font-weight:bold;
 }
 
-.track {
-  background: rgba(20,20,20,0.75);
-  padding: 18px;
-  margin-bottom: 18px;
-  border-left: 3px solid #b300ff;
+.player{
+  display:flex;
+  gap:10px;
+  align-items:center;
+  margin-top:10px;
 }
 
-.track.active {
-  box-shadow: 0 0 25px #b300ff;
+button{
+  background:none;
+  border:1px solid #b300ff;
+  color:#b300ff;
+  cursor:pointer;
 }
 
-.artist {
-  font-weight: 600;
-  color: #b300ff;
+.progress{
+  flex:1;
+  height:10px;
+  background:#222;
+  cursor:pointer;
 }
 
-.title {
-  font-size: 14px;
-  margin-top: 4px;
+.bar{
+  height:100%;
+  width:0%;
+  background:#b300ff;
 }
 
-.player {
-  display: flex;
-  gap: 10px;
-  margin-top: 10px;
-  align-items: center;
-}
-
-button {
-  background: transparent;
-  border: 1px solid #b300ff;
-  color: #b300ff;
-  padding: 6px 10px;
-  cursor: pointer;
-}
-
-.progress {
-  flex: 1;
-  height: 10px;
-  background: #1a1a1a;
-  cursor: pointer;
-}
-
-.bar {
-  height: 100%;
-  width: 0%;
-  background: linear-gradient(90deg,#b300ff,#ff00ff);
-}
-
-.volume {
-  width: 80px;
+.volume{
+  width:80px;
 }
 </style>
 </head>
 
 <body>
 
-<canvas id="particles"></canvas>
-<div class="smoke"></div>
-
 <header>
-  <h1 class="glitch">ANKOGNiTO</h1>
-  <p>Dark Rock Project</p>
+  <h1>ANKOGNiTO</h1>
+  <p>Music Project</p>
 </header>
 
 <section>
-  <h2>Music</h2>
   <div id="list"></div>
 </section>
 
@@ -148,42 +107,42 @@ const tracks = [
 
 const list = document.getElementById("list");
 
-const base =
-  location.hostname.includes("github.io")
-    ? "/ankognito"
-    : "";
-
 let current = null;
 let currentIndex = -1;
 
 function render(){
+
   list.innerHTML = "";
 
   tracks.forEach((name,i)=>{
+
     const title = name.replace("ANKOGNiTO - ","");
 
     list.innerHTML += `
-    <div class="track" data-index="${i}">
-      <div class="artist">ANKOGNiTO</div>
-      <div class="title">${title}</div>
+      <div class="track" data-index="${i}">
+        <div class="artist">ANKOGNiTO</div>
+        <div>${title}</div>
 
-      <audio src="${base}/music/${name}.mp3"></audio>
+        <!-- 💥 ВАЖНО: БЕЗ base, БЕЗ /ankognito -->
+        <audio src="music/${name}.mp3"></audio>
 
-      <div class="player">
-        <button onclick="toggle(this)">Play</button>
+        <div class="player">
+          <button onclick="toggle(this)">Play</button>
 
-        <div class="progress" onclick="seek(event,this)">
-          <div class="bar"></div>
+          <div class="progress" onclick="seek(event,this)">
+            <div class="bar"></div>
+          </div>
+
+          <input type="range" min="0" max="1" step="0.01"
+                 value="0.8" oninput="volume(this)">
         </div>
-
-        <input class="volume" type="range" min="0" max="1" step="0.01"
-        oninput="setVolume(this)" value="0.8">
       </div>
-    </div>`;
+    `;
   });
 }
 
 function toggle(btn){
+
   const track = btn.closest(".track");
   const audio = track.querySelector("audio");
   const index = Number(track.dataset.index);
@@ -193,25 +152,25 @@ function toggle(btn){
     t.querySelector("button").innerText="Play";
   });
 
-  if(current && current!==audio){
+  if(current && current !== audio){
     current.pause();
-    current.currentTime=0;
+    current.currentTime = 0;
   }
 
   if(audio.paused){
     audio.play();
     btn.innerText="Pause";
-    track.classList.add("active");
 
-    current=audio;
-    currentIndex=index;
+    current = audio;
+    currentIndex = index;
 
-    audio.onended=()=>playNext();
+    audio.onended = ()=>next();
   } else {
     audio.pause();
+    btn.innerText="Play";
   }
 
-  audio.ontimeupdate=()=>{
+  audio.ontimeupdate = ()=>{
     if(audio.duration){
       track.querySelector(".bar").style.width =
         (audio.currentTime/audio.duration)*100+"%";
@@ -219,63 +178,25 @@ function toggle(btn){
   };
 }
 
-function playNext(){
-  const next = document.querySelector(`.track[data-index="${currentIndex+1}"]`);
-  if(next) next.querySelector("button").click();
+function next(){
+  const el = document.querySelector(`.track[data-index="${currentIndex+1}"]`);
+  if(el) el.querySelector("button").click();
 }
 
 function seek(e,el){
   const audio = el.closest(".track").querySelector("audio");
   const rect = el.getBoundingClientRect();
-  const p = (e.clientX-rect.left)/rect.width;
+
+  const percent = (e.clientX - rect.left) / rect.width;
   if(audio.duration){
-    audio.currentTime=p*audio.duration;
+    audio.currentTime = percent * audio.duration;
   }
 }
 
-function setVolume(slider){
+function volume(slider){
   const audio = slider.closest(".track").querySelector("audio");
-  audio.volume=slider.value;
+  audio.volume = slider.value;
 }
-
-/* particles */
-const c=document.getElementById("particles");
-const ctx=c.getContext("2d");
-
-let w,h;
-function resize(){
-  w=c.width=innerWidth;
-  h=c.height=innerHeight;
-}
-resize();
-addEventListener("resize",resize);
-
-const f=[];
-for(let i=0;i<120;i++){
-  f.push({
-    x:Math.random()*w,
-    y:Math.random()*h,
-    r:Math.random()*2,
-    s:Math.random()*1+0.2
-  });
-}
-
-function draw(){
-  ctx.clearRect(0,0,w,h);
-
-  f.forEach(p=>{
-    ctx.beginPath();
-    ctx.fillStyle="#b300ff";
-    ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
-    ctx.fill();
-
-    p.y+=p.s;
-    if(p.y>h)p.y=0;
-  });
-
-  requestAnimationFrame(draw);
-}
-draw();
 
 render();
 
