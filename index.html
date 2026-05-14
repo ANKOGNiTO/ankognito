@@ -3,11 +3,17 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>ANKOGNiTO</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 
 <style>
+
+/* =========================
+   BASE
+========================= */
+
 body {
   margin: 0;
   font-family: "Inter", system-ui, Arial, sans-serif;
@@ -19,7 +25,10 @@ body {
   letter-spacing: 0.2px;
 }
 
-/* BACKGROUND */
+/* =========================
+   BACKGROUND
+========================= */
+
 #particles {
   position: fixed;
   width: 100%;
@@ -43,7 +52,10 @@ body {
   to { transform: scale(1.3) translateY(-40px); }
 }
 
-/* HEADER */
+/* =========================
+   HEADER
+========================= */
+
 header {
   text-align: center;
   padding: 60px 20px;
@@ -53,7 +65,10 @@ header {
   z-index: 2;
 }
 
-/* GLITCH */
+/* =========================
+   GLITCH + FLOAT LOGO
+========================= */
+
 .glitch {
   font-size: clamp(40px, 6vw, 80px);
   letter-spacing: 0.35em;
@@ -62,6 +77,8 @@ header {
   position: relative;
   display: inline-block;
   text-shadow: 0 0 30px #b300ff;
+
+  animation: floatTitle 6s ease-in-out infinite;
 }
 
 .glitch::before,
@@ -72,10 +89,26 @@ header {
   left: 0;
 }
 
-.glitch::before { color: #ff00ff; transform: translate(2px); }
-.glitch::after { color: #00ffff; transform: translate(-2px); }
+.glitch::before {
+  color: #ff00ff;
+  transform: translate(2px);
+}
 
-/* TEXT */
+.glitch::after {
+  color: #00ffff;
+  transform: translate(-2px);
+}
+
+@keyframes floatTitle {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-12px); }
+  100% { transform: translateY(0px); }
+}
+
+/* =========================
+   TEXT
+========================= */
+
 h2 {
   font-size: 18px;
   letter-spacing: 0.4em;
@@ -89,7 +122,6 @@ p {
   opacity: 0.85;
 }
 
-/* IMAGE */
 header img {
   width: 260px;
   margin-top: 20px;
@@ -97,7 +129,10 @@ header img {
   box-shadow: 0 0 25px #b300ff;
 }
 
-/* SECTION */
+/* =========================
+   SECTION
+========================= */
+
 section {
   max-width: 900px;
   margin: auto;
@@ -106,7 +141,10 @@ section {
   z-index: 2;
 }
 
-/* TRACK */
+/* =========================
+   TRACKS
+========================= */
+
 .track {
   background: rgba(20,20,20,0.75);
   padding: 18px;
@@ -123,29 +161,17 @@ section {
   transform: scale(1.01);
 }
 
-/* ARTIST */
+/* =========================
+   ARTIST + TITLE
+========================= */
+
 .artist {
   font-size: 16px;
   letter-spacing: 0.35em;
   font-weight: 600;
   color: #b300ff;
-  position: relative;
-  display: inline-block;
-  text-shadow: 0 0 30px #b300ff;
 }
 
-.artist::before,
-.artist::after {
-  content: "ANKOGNiTO";
-  position: absolute;
-  top: 0;
-  left: 0;
-}
-
-.artist::before { color: #ff00ff; transform: translate(2px); }
-.artist::after { color: #00ffff; transform: translate(-2px); }
-
-/* TITLE */
 .title {
   color: #ffffff;
   opacity: 0.9;
@@ -153,7 +179,10 @@ section {
   margin-top: 4px;
 }
 
-/* PLAYER */
+/* =========================
+   PLAYER
+========================= */
+
 .player {
   display: flex;
   align-items: center;
@@ -175,7 +204,6 @@ button:hover {
   color: #000;
 }
 
-/* PROGRESS */
 .progress {
   flex: 1;
   height: 12px;
@@ -191,12 +219,14 @@ button:hover {
   width: 0%;
 }
 
-/* VOLUME */
 .volume {
   width: 80px;
 }
 
-/* FOOTER */
+/* =========================
+   FOOTER
+========================= */
+
 footer {
   text-align: center;
   padding: 30px;
@@ -204,6 +234,7 @@ footer {
   position: relative;
   z-index: 2;
 }
+
 </style>
 </head>
 
@@ -224,11 +255,14 @@ footer {
 </section>
 
 <footer>
-© 2026 ANKOGNiTO - All Rights Reserved
-/Created & Developed by Alex King
+© 2026 ANKOGNiTO - All Rights Reserved / Created by Alex King
 </footer>
 
 <script>
+
+/* =========================
+   TRACK LIST
+========================= */
 
 const tracks = [
 "ANKOGNiTO - Traff",
@@ -252,7 +286,12 @@ const list = document.getElementById("list");
 let current = null;
 let currentIndex = -1;
 
-tracks.forEach((name, index)=>{
+/* =========================
+   CREATE UI
+========================= */
+
+tracks.forEach((name, index) => {
+
   const title = name.replace("ANKOGNiTO - ", "");
 
   list.innerHTML += `
@@ -275,22 +314,27 @@ tracks.forEach((name, index)=>{
   </div>`;
 });
 
-function toggle(btn){
+/* =========================
+   PLAY
+========================= */
+
+function toggle(btn) {
+
   const track = btn.closest(".track");
   const audio = track.querySelector("audio");
   const index = Number(track.dataset.index);
 
-  document.querySelectorAll(".track").forEach(t=>{
+  document.querySelectorAll(".track").forEach(t => {
     t.classList.remove("active");
     t.querySelector("button").innerText = "Play";
   });
 
-  if(current && current !== audio){
+  if (current && current !== audio) {
     current.pause();
     current.currentTime = 0;
   }
 
-  if(audio.paused){
+  if (audio.paused) {
     audio.play();
     btn.innerText = "Pause";
 
@@ -308,46 +352,62 @@ function toggle(btn){
 
   audio.ontimeupdate = () => {
     const bar = track.querySelector(".bar");
+    if (!audio.duration) return;
     bar.style.width = (audio.currentTime / audio.duration) * 100 + "%";
   };
 }
 
-function playNext(){
+/* =========================
+   NEXT TRACK
+========================= */
+
+function playNext() {
   const next = currentIndex + 1;
   const nextTrack = document.querySelector(`.track[data-index="${next}"]`);
-  if(!nextTrack) return;
+  if (!nextTrack) return;
   toggle(nextTrack.querySelector("button"));
 }
 
-function seek(e, el){
+/* =========================
+   SEEK
+========================= */
+
+function seek(e, el) {
   const audio = el.closest(".track").querySelector("audio");
   const rect = el.getBoundingClientRect();
   const percent = (e.clientX - rect.left) / rect.width;
   audio.currentTime = percent * audio.duration;
 }
 
-function setVolume(slider){
+/* =========================
+   VOLUME
+========================= */
+
+function setVolume(slider) {
   const audio = slider.closest(".track").querySelector("audio");
   audio.volume = slider.value;
 }
 
-/* ❄️ ONLY ADDITION: SLOW PURPLE SNOW */
+/* =========================
+   PARTICLES
+========================= */
 
 const canvas = document.getElementById("particles");
 const ctx = canvas.getContext("2d");
 
 let w, h;
 
-function resize(){
+function resize() {
   w = canvas.width = window.innerWidth;
   h = canvas.height = window.innerHeight;
 }
+
 window.addEventListener("resize", resize);
 resize();
 
 const flakes = [];
 
-for(let i = 0; i < 140; i++){
+for (let i = 0; i < 140; i++) {
   flakes.push({
     x: Math.random() * w,
     y: Math.random() * h,
@@ -357,10 +417,11 @@ for(let i = 0; i < 140; i++){
   });
 }
 
-function draw(){
+function draw() {
+
   ctx.clearRect(0, 0, w, h);
 
-  for(let f of flakes){
+  for (let f of flakes) {
 
     ctx.beginPath();
     ctx.fillStyle = "rgba(179,0,255,0.75)";
@@ -372,7 +433,7 @@ function draw(){
     f.y += f.speed;
     f.x += f.drift;
 
-    if(f.y > h){
+    if (f.y > h) {
       f.y = -10;
       f.x = Math.random() * w;
     }
