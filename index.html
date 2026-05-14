@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>ANKOGNiTO</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+
+/* =========================
+   BASE
+========================= */
+
+body {
+  margin: 0;
+  font-family: "Inter", system-ui, Arial, sans-serif;
+  background: #050505;
+  color: #eaeaea;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  letter-spacing: 0.2px;
+}
+
+/* =========================
+   BACKGROUND
+========================= */
+
+#particles {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  background: radial-gradient(circle at center, rgba(179,0,255,0.08), transparent 60%);
+}
+
+.smoke {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at center, rgba(179,0,255,0.15), transparent 60%);
+  filter: blur(90px);
+  animation: smoke 12s infinite alternate;
+  z-index: 1;
+}
+
+@keyframes smoke {
+  from { transform: scale(1); }
+  to { transform: scale(1.3) translateY(-40px); }
+}
+
+/* =========================
+   HEADER
+========================= */
+
+header {
+  text-align: center;
+  padding: 60px 20px;
+  background: radial-gradient(circle, #1a1a1a, #000);
+  border-bottom: 2px solid #b300ff;
+  position: relative;
+  z-index: 2;
+}
+
+/* =========================
+   GLITCH + FLOAT LOGO
+========================= */
+
+.glitch {
+  font-size: clamp(40px, 6vw, 80px);
+  letter-spacing: 0.35em;
+  font-weight: 600;
+  color: #b300ff;
+  position: relative;
+  display: inline-block;
+  text-shadow: 0 0 30px #b300ff;
+
+  animation: floatTitle 6s ease-in-out infinite;
+}
+
+.glitch::before,
+.glitch::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.glitch::before {
+  color: #ff00ff;
+  transform: translate(2px);
+}
+
+.glitch::after {
+  color: #00ffff;
+  transform: translate(-2px);
+}
+
+@keyframes floatTitle {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-12px); }
+  100% { transform: translateY(0px); }
+}
+
+/* =========================
+   TEXT
+========================= */
+
+h2 {
+  font-size: 18px;
+  letter-spacing: 0.4em;
+  font-weight: 400;
+  color: #b300ff;
+}
+
+p {
+  font-size: 14px;
+  line-height: 1.8;
+  opacity: 0.85;
+}
+
+header img {
+  width: 260px;
+  margin-top: 20px;
+  border: 2px solid #b300ff;
+  box-shadow: 0 0 25px #b300ff;
+}
+
+/* =========================
+   SECTION
+========================= */
+
+section {
+  max-width: 900px;
+  margin: auto;
+  padding: 40px 20px;
+  position: relative;
+  z-index: 2;
+}
+
+/* =========================
+   TRACKS
+========================= */
+
+.track {
+  background: rgba(20,20,20,0.75);
+  padding: 18px;
+  margin-bottom: 18px;
+  border-left: 3px solid #b300ff;
+  backdrop-filter: blur(8px);
+  transition: 0.2s ease;
+}
+
+.track.active {
+  border-left: 3px solid #ff00ff;
+  box-shadow: 0 0 25px rgba(179,0,255,0.35),
+              0 0 60px rgba(255,0,255,0.15);
+  transform: scale(1.01);
+}
+
+/* =========================
+   ARTIST + TITLE
+========================= */
+
+.artist {
+  font-size: 16px;
+  letter-spacing: 0.35em;
+  font-weight: 600;
+  color: #b300ff;
+}
+
+.title {
+  color: #ffffff;
+  opacity: 0.9;
+  font-size: 14px;
+  margin-top: 4px;
+}
+
+/* =========================
+   PLAYER
+========================= */
+
+.player {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+button {
+  background: transparent;
+  border: 1px solid #b300ff;
+  color: #b300ff;
+  padding: 6px 10px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #b300ff;
+  color: #000;
+}
+
+.progress {
+  flex: 1;
+  height: 12px;
+  background: #1a1a1a;
+  cursor: pointer;
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.bar {
+  height: 100%;
+  background: linear-gradient(90deg, #b300ff, #ff00ff);
+  width: 0%;
+}
+
+.volume {
+  width: 80px;
+}
+
+/* =========================
+   FOOTER
+========================= */
+
+footer {
+  text-align: center;
+  padding: 30px;
+  opacity: 0.5;
+  position: relative;
+  z-index: 2;
+}
+
+</style>
+</head>
+
+<body>
+
+<canvas id="particles"></canvas>
+<div class="smoke"></div>
+
+<header>
+  <h1 class="glitch" data-text="ANKOGNiTO">ANKOGNiTO</h1>
+  <p>Dark Rock Project - / ANonymous Knowledge Operating Gateway Network Interface Transmission Orbit / - The Hidden Mind</p>
+  <img src="./img/ankognito_de.png">
+</header>
+
+<section>
+<h2>Music</h2>
+<div id="list"></div>
+</section>
+
+<footer>
+© 2026 ANKOGNiTO - All Rights Reserved / Created by Alex King
+</footer>
+
+<script>
+
+/* =========================
+   TRACK LIST
+========================= */
+
+const tracks = [
+"ANKOGNiTO - Traff",
+"ANKOGNiTO - Glasshouse",
+"ANKOGNiTO - Bring",
+"ANKOGNiTO - Glow",
+"ANKOGNiTO - Bonvitess",
+"ANKOGNiTO - Anarchie",
+"ANKOGNiTO - Reflection",
+"ANKOGNiTO - KinoTape",
+"ANKOGNiTO - Abstinenz",
+"ANKOGNiTO - Echoes of Winter",
+"ANKOGNiTO - Moondless",
+"ANKOGNiTO - NewDay",
+"ANKOGNiTO - No pain",
+"ANKOGNiTO - Spring"
+];
+
+const list = document.getElementById("list");
+
+let current = null;
+let currentIndex = -1;
+
+/* =========================
+   CREATE UI
+========================= */
+
+tracks.forEach((name, index) => {
+
+  const title = name.replace("ANKOGNiTO - ", "");
+
+  list.innerHTML += `
+  <div class="track" data-index="${index}">
+    <div class="artist">ANKOGNiTO</div>
+    <div class="title">${title}</div>
+
+    <audio src="./music/${name}.mp3"></audio>
+
+    <div class="player">
+      <button onclick="toggle(this)">Play</button>
+
+      <div class="progress" onclick="seek(event,this)">
+        <div class="bar"></div>
+      </div>
+
+      <input class="volume" type="range" min="0" max="1" step="0.01"
+      oninput="setVolume(this)" value="0.8">
+    </div>
+  </div>`;
+});
+
+/* =========================
+   PLAY
+========================= */
+
+function toggle(btn) {
+
+  const track = btn.closest(".track");
+  const audio = track.querySelector("audio");
+  const index = Number(track.dataset.index);
+
+  document.querySelectorAll(".track").forEach(t => {
+    t.classList.remove("active");
+    t.querySelector("button").innerText = "Play";
+  });
+
+  if (current && current !== audio) {
+    current.pause();
+    current.currentTime = 0;
+  }
+
+  if (audio.paused) {
+    audio.play();
+    btn.innerText = "Pause";
+
+    track.classList.add("active");
+
+    current = audio;
+    currentIndex = index;
+
+    audio.onended = () => playNext();
+  } else {
+    audio.pause();
+    btn.innerText = "Play";
+    track.classList.remove("active");
+  }
+
+  audio.ontimeupdate = () => {
+    const bar = track.querySelector(".bar");
+    if (!audio.duration) return;
+    bar.style.width = (audio.currentTime / audio.duration) * 100 + "%";
+  };
+}
+
+/* =========================
+   NEXT TRACK
+========================= */
+
+function playNext() {
+  const next = currentIndex + 1;
+  const nextTrack = document.querySelector(`.track[data-index="${next}"]`);
+  if (!nextTrack) return;
+  toggle(nextTrack.querySelector("button"));
+}
+
+/* =========================
+   SEEK
+========================= */
+
+function seek(e, el) {
+  const audio = el.closest(".track").querySelector("audio");
+  const rect = el.getBoundingClientRect();
+  const percent = (e.clientX - rect.left) / rect.width;
+  audio.currentTime = percent * audio.duration;
+}
+
+/* =========================
+   VOLUME
+========================= */
+
+function setVolume(slider) {
+  const audio = slider.closest(".track").querySelector("audio");
+  audio.volume = slider.value;
+}
+
+/* =========================
+   PARTICLES
+========================= */
+
+const canvas = document.getElementById("particles");
+const ctx = canvas.getContext("2d");
+
+let w, h;
+
+function resize() {
+  w = canvas.width = window.innerWidth;
+  h = canvas.height = window.innerHeight;
+}
+
+window.addEventListener("resize", resize);
+resize();
+
+const flakes = [];
+
+for (let i = 0; i < 140; i++) {
+  flakes.push({
+    x: Math.random() * w,
+    y: Math.random() * h,
+    r: Math.random() * 1.5 + 0.3,
+    speed: Math.random() * 0.35 + 0.1,
+    drift: Math.random() * 0.2 - 0.1
+  });
+}
+
+function draw() {
+
+  ctx.clearRect(0, 0, w, h);
+
+  for (let f of flakes) {
+
+    ctx.beginPath();
+    ctx.fillStyle = "rgba(179,0,255,0.75)";
+    ctx.shadowBlur = 8;
+    ctx.shadowColor = "#b300ff";
+    ctx.arc(f.x, f.y, f.r, 0, Math.PI * 2);
+    ctx.fill();
+
+    f.y += f.speed;
+    f.x += f.drift;
+
+    if (f.y > h) {
+      f.y = -10;
+      f.x = Math.random() * w;
+    }
+  }
+
+  requestAnimationFrame(draw);
+}
+
+draw();
+
+</script>
+
+</body>
+</html>
